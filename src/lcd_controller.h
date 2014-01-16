@@ -1,0 +1,1 @@
+void LCD_init(int textStart, int graphicStart, short fontSize);
