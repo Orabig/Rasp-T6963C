@@ -17,7 +17,7 @@ int main(int argc, char **argv)
 	int pixelX = 240;
 	int pixelY = 128;
 	
-	int fontSize = 1; // 0=6x8   1=8x8
+	int fontSize = 0; // 0=6x8   1=8x8
 	
 	LCD_screen_init(pixelX,pixelY, fontSize);
 	

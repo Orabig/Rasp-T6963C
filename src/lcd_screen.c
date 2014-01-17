@@ -71,5 +71,5 @@ void LCD_SetPixel(unsigned char x,unsigned char y, short color) {
 int address;
 address = BASE_GRAPHIC + (x / fontX) + (y * cols);
 LCD_set_address_pointer( address );
-LCD_set_bit( x % 8, color );
+LCD_set_bit( x % fontX + 8 - fontX, color );
 }
