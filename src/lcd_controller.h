@@ -23,3 +23,5 @@ void LCD_data_write_down( short data );
 void LCD_auto_write_start();
 void LCD_auto_write(short data);
 void LCD_auto_write_stop();
+
+void lprint(char *text);

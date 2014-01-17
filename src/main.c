@@ -6,13 +6,8 @@
 #include <string.h>
 
 #include "lcd_controller.h" 
+#include "lcd_screen.h" 
 
-#define BASE_TEXT            0x0000
-#define BASE_GRAPHIC   0x0200
-
-
-void lprint(char *text);
-void lprintln(short cols, char *text);
 
 int main(int argc, char **argv)
 {
@@ -23,16 +18,7 @@ int main(int argc, char **argv)
 	
 	int fontSize = 1; // 0=6x8   1=8x8
 	
-	// Raw computation
-	int fontX = fontSize ? 8 : 6;
-	int fontY = 8;
-	int cols = pixelX / fontX;          // 1E      28
-	int rows = pixelY / fontY;
-
-	int textScreenSize = cols * rows;                     // 1E0       280
-	int graphicScreenSize = cols * rows * fontY;          // F00      1400 
-
-    LCD_init(BASE_TEXT,BASE_GRAPHIC,fontSize);
+	LCD_screen_init(pixelX,pixelY, 1);
 	
 	// MODE SET
 	LCD_mode( MODE_OR ); 
@@ -43,56 +29,36 @@ int main(int argc, char **argv)
 	int i;
 
 	// Erase text screen
-	LCD_set_address_pointer( BASE_TEXT );
-	for (i=0;i<textScreenSize;i++) {
+	LCD_set_address_pointer( LCD_getBaseText() );
+	for (i=0;i<LCD_getTextScreenSize();i++) {
 		LCD_data_write_up( 0x00 ); 
 	}
 	
 	// Erase graphic screen
-	LCD_set_address_pointer( BASE_GRAPHIC );
+	LCD_set_address_pointer( LCD_getBaseGraphic() );
 	LCD_auto_write_start();
-	for (i=0;i<graphicScreenSize;i++) {
+	for (i=0;i<LCD_getGraphicScreenSize();i++) {
 		LCD_auto_write( 0x00 ); 
 	}
 	LCD_auto_write_stop();
-	
-	LCD_set_address_pointer( BASE_TEXT );
+	LCD_set_address_pointer( LCD_getBaseText() );
 
-	lprintln(cols,"");
-	lprintln(cols,"  Welcome on this DG-24128");
-	lprintln(cols,"");
+	lprintln("");
+	lprintln("  Welcome on this DG-24128");
+	lprintln("");
+	exit(0);
 	
 	char buffer[256];
-	sprintf(buffer,"cols=0x%X",cols);
-	lprintln(cols,buffer);
-	sprintf(buffer,"rows=0x%X",rows);
-	lprintln(cols,buffer);
-	sprintf(buffer,"textScreenSize=0x%X",textScreenSize);
-	lprintln(cols,buffer);
-	sprintf(buffer,"graphicScreenSize=0x%X",graphicScreenSize);
-	lprintln(cols,buffer);
+	sprintf(buffer,"cols=0x%X",LCD_getCols());
+	lprintln(buffer);
+	sprintf(buffer,"rows=0x%X",LCD_getRows());
+	lprintln(buffer);
+	sprintf(buffer,"getTextScreenSize=0x%X",LCD_getTextScreenSize());
+	lprintln(buffer);
+	sprintf(buffer,"getGraphicScreenSize=0x%X",LCD_getGraphicScreenSize);
+	lprintln(buffer);
 
 	return 0;		
 
 } // main
-
-void lprint(char *text) {
-  while (*text != 0) {
-	LCD_data_write_up( *text - 0x20 );
-	text++;
-  }
-}
-void lprintln(short cols, char *text) {
-  LCD_auto_write_start();
-  int len = strlen(text);
-  while (*text != 0) {
-	LCD_auto_write( *text - 0x20 );
-	text++;
-  }
-  len %= cols;
-  while (len++<cols) {
-	LCD_auto_write( 0 );
-  }
-  LCD_auto_write_stop();
-}
 

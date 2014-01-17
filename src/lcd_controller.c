@@ -83,4 +83,9 @@ void LCD_auto_write_stop() {
 	LCD_command( 0xB2 );
 }
 
-
+void lprint(char *text) {
+  while (*text != 0) {
+	LCD_data_write_up( *text - 0x20 );
+	text++;
+  }
+}
