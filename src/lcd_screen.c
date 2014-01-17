@@ -18,6 +18,8 @@
 	
 	int cols,rows;
 	
+	int fontX;
+	
 // Computes the screen characteristics and choose a memory	
 void LCD_screen_compute(int pX, int pY, int font) {
 	pixelX = pX;
@@ -25,7 +27,7 @@ void LCD_screen_compute(int pX, int pY, int font) {
 	fontSize = font;
 	
 	// Raw computation
-	int fontX = fontSize ? 8 : 6;
+	fontX = fontSize ? 8 : 6;
 	int fontY = 8;
 	cols = pixelX / fontX;          // 1E      28
 	rows = pixelY / fontY;
@@ -44,10 +46,10 @@ void LCD_screen_init(int pX, int pY, int font) {
 
 short LCD_getRows() { return (short)rows; }
 short LCD_getCols() { return (short)cols; }
-int LCD_getBaseText() { return BASE_TEXT; }
-int LCD_getBaseGraphic() { return BASE_GRAPHIC; }
-int LCD_getTextScreenSize() { return TEXT_SIZE; }
-int LCD_getGraphicScreenSize() { return GRAPHIC_SIZE; }
+unsigned int LCD_getBaseText() { return BASE_TEXT; }
+unsigned int LCD_getBaseGraphic() { return BASE_GRAPHIC; }
+unsigned int LCD_getTextScreenSize() { return TEXT_SIZE; }
+unsigned int LCD_getGraphicScreenSize() { return GRAPHIC_SIZE; }
 
 
 void lprintln(char *text) {  
@@ -62,4 +64,12 @@ void lprintln(char *text) {
 	LCD_auto_write( 0 );
   }
   LCD_auto_write_stop();
+}
+
+// Set (if color==1) or clear (if color==0) pixel on screen
+void LCD_SetPixel(unsigned char x,unsigned char y, short color) {
+int address;
+address = BASE_GRAPHIC + (x / fontX) + (y * cols);
+LCD_set_address_pointer( address );
+LCD_set_bit( x % 8, color );
 }

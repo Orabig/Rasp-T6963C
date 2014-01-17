@@ -24,4 +24,6 @@ void LCD_auto_write_start();
 void LCD_auto_write(short data);
 void LCD_auto_write_stop();
 
+void LCD_set_bit(short bit, short set);
+
 void lprint(char *text);

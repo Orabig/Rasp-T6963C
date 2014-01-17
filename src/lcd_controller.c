@@ -83,6 +83,11 @@ void LCD_auto_write_stop() {
 	LCD_command( 0xB2 );
 }
 
+// Set/reset the given bit (0<=bit<=7)
+void LCD_set_bit(short bit,short set) {
+	LCD_command( 0xF7 - bit + (set?8:0) );
+}
+
 void lprint(char *text) {
   while (*text != 0) {
 	LCD_data_write_up( *text - 0x20 );

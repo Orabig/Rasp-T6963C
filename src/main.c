@@ -7,6 +7,7 @@
 
 #include "lcd_controller.h" 
 #include "lcd_screen.h" 
+#include "lcd_graphics.h" 
 
 
 int main(int argc, char **argv)
@@ -18,7 +19,7 @@ int main(int argc, char **argv)
 	
 	int fontSize = 1; // 0=6x8   1=8x8
 	
-	LCD_screen_init(pixelX,pixelY, 1);
+	LCD_screen_init(pixelX,pixelY, fontSize);
 	
 	// MODE SET
 	LCD_mode( MODE_OR ); 
@@ -46,18 +47,21 @@ int main(int argc, char **argv)
 	lprintln("");
 	lprintln("  Welcome on this DG-24128");
 	lprintln("");
-	exit(0);
+	lprintln("");
 	
 	char buffer[256];
-	sprintf(buffer,"cols=0x%X",LCD_getCols());
+	sprintf(buffer,"cols=0x%X",(unsigned int)LCD_getCols());
 	lprintln(buffer);
-	sprintf(buffer,"rows=0x%X",LCD_getRows());
+	sprintf(buffer,"rows=0x%X",(unsigned int)LCD_getRows());
 	lprintln(buffer);
 	sprintf(buffer,"getTextScreenSize=0x%X",LCD_getTextScreenSize());
 	lprintln(buffer);
-	sprintf(buffer,"getGraphicScreenSize=0x%X",LCD_getGraphicScreenSize);
+	sprintf(buffer,"getGraphicScreenSize=0x%X",LCD_getGraphicScreenSize());
 	lprintln(buffer);
 
+    LCD_Circle(50,100,20);	
+	LCD_Rectangle(10,3,210,18);
+	LCD_Line(100,100,210,80);
 	return 0;		
 
 } // main

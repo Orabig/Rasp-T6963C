@@ -1,11 +1,12 @@
 void LCD_screen_compute(int pX, int pY, int font);
 void LCD_screen_init(int pX, int pY, int font);
 
-int LCD_getRows();
-int LCD_getCols();
-int LCD_getBaseText();
-int LCD_getBaseGraphic();
-int LCD_getTextScreenSize();
-int LCD_getGraphicScreenSize();
+short LCD_getRows();
+short LCD_getCols();
+unsigned int LCD_getBaseText();
+unsigned int LCD_getBaseGraphic();
+unsigned int LCD_getTextScreenSize();
+unsigned int LCD_getGraphicScreenSize();
 
 void lprintln(char *text);
+void LCD_SetPixel(unsigned char x,unsigned char y, short color);
