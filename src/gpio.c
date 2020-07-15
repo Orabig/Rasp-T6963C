@@ -48,17 +48,17 @@ void gpio_input_pin(int pin) {
 	}
 
 // Turn GPIO output to 1
-inline void gpio_set(int pin) {
+void gpio_set(int pin) {
 	GPIO_SET = pin;
 	}
 
 // Turn GPIO output to 0
-inline void gpio_clr(int pin) {
+void gpio_clr(int pin) {
 	GPIO_CLR = pin;
 	}
 
 // Turn GPIO output to given value
-inline void gpio_put(int pin, short value) {
+void gpio_put(int pin, short value) {
 	*(gpio+7+(!(value & 1)*3)) = pin;
 	}	
 
